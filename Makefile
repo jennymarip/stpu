@@ -42,5 +42,16 @@ fifo_ssa_run:
 	mkdir build/wave
 	./$(FIFO_SSA_OBJ_DIR)/Vfifo_ssa >> $(FIFO_SSA_LOG_DIR)/fifo_ssa_run.log
 
+# -- cu --
+CU_OBJ_DIR = build/cu_obj
+CU_LOG_DIR = build/cu_log
+cu_all:
+	mkdir $(CU_OBJ_DIR)
+	verilator --cc --exe --build -j 0 -Wall -Wno-UNOPTFLAT --trace -sv -Mdir $(CU_OBJ_DIR) $(TB_DIR)/cu.cpp $(RTL_DIR)/cu.v $(RTL_DIR)/b_loader.v $(RTL_DIR)/fifo_ssa.v $(RTL_DIR)/left_fifo.v $(RTL_DIR)/ssa.v $(RTL_DIR)/pe.v $(RTL_DIR)/row_gen.v
+cu_run:
+	mkdir $(CU_LOG_DIR)
+	mkdir build/wave
+	./$(CU_OBJ_DIR)/Vcu >> $(CU_LOG_DIR)/cu_run.log
+
 clean:
 	rm -rf build/*
